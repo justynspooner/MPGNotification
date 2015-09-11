@@ -537,7 +537,10 @@ static const CGFloat kColorAdjustmentLight = 0.35;
         
         UIWindow *window = [self _topAppWindow];
         
-        self.windowLevel = [[[[UIApplication sharedApplication] delegate] window] windowLevel];
+        // Make sure we're not setting a window level that has already been set above the status bar
+        if ([[[[UIApplication sharedApplication] delegate] window] windowLevel] != UIWindowLevelStatusBar + 1) {
+            self.windowLevel = [[[[UIApplication sharedApplication] delegate] window] windowLevel];
+        }
         
         // Update windowLevel to make sure status bar does not interfere with the notification
         [[[[UIApplication sharedApplication] delegate] window] setWindowLevel:UIWindowLevelStatusBar+1];
